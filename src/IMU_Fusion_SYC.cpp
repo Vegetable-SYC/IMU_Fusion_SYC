@@ -126,7 +126,7 @@ void IMU::Heading_Offset(int offest)
 void IMU::Calculate() {
   if(QMC5883L_state == true)
   {
-    // QMC5883L读取
+    // QMC5883L Read
     wire->beginTransmission(QMC5883L_ADDR);
     wire->write(QMC5883L_Start_ADDR);
     wire->endTransmission(false); // End the transfer, but keep the connection
@@ -145,7 +145,7 @@ void IMU::Calculate() {
       heading += heading_offset;
   }
 
-  // MPU6050读取
+  // MPU6050 Read
   if(MPU6050_state == true)
   {
       wire->beginTransmission(MPU6050_ADDR); // Start the communication with the MPU6050
