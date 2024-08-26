@@ -7,7 +7,7 @@
   Modification: 2024/08/24
 **********************************************************************/
 
-#include "IMU_SYC.h"
+#include "IMU_Fusion_SYC.h"
 #include "Arduino.h"
 
 IMU::IMU(TwoWire &i){//Get wire

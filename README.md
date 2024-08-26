@@ -1,10 +1,10 @@
-# IMU_Fusion_SYC   v1.0.0
+# IMU_Fusion_SYC   v1.0.1
 
 The data of MPU6050 and QMC5883L can be read, and the data fusion of both can be realized
 
 ## **How** to use?
 
-you can see example sketch, It includes how to read the data and how to get the merged data.
+you can see [example sketch](https://github.com/Vegetable-SYC/IMU_Fusion_SYC), It includes how to read the data and how to get the merged data.
 
 
 
@@ -32,7 +32,7 @@ void setup() {
 
 If both sensors are successfully initialized, the following output is displayed on the serial monitor
 
-```
+```c
 ***********************************************************
 
 QMC_Init!!!
@@ -44,14 +44,14 @@ MPU_Init!!!
 
 If the sensor fails to be initialized, the following output is displayed on the serial port monitor
 
-```
-***********************************************************
+```c
+*****************************************************************
 
-QMC_Init false!!! \t Please check whether the connection is correct
+QMC_Init false!!! Please check whether the connection is correct
 
-"MPU_Init false!!! \t Please check whether the connection is correct"
+MPU_Init false!!! Please check whether the connection is correct
 
-***********************************************************
+*****************************************************************
 ```
 
 Note that if only one sensor is initialized individually, only information about the corresponding sensor will be output ! ! !
@@ -120,7 +120,7 @@ void setup() {
 
 The serial port monitor will output the following information during calibration
 
-```
+```c
 ***********************************************************
 MPU6050 is being calibrated
 Uneven placement can cause data errors
