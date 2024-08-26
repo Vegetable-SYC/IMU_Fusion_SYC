@@ -1,4 +1,4 @@
-# IMU_Fusion_SYC   v1.0.1
+# IMU_Fusion_SYC   v1.0.0
 
 The data of MPU6050 and QMC5883L can be read, and the data fusion of both can be realized
 
