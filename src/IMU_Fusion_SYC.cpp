@@ -2,9 +2,9 @@
   Filename    : IMU_SYC
   Description : The data of MPU6050 and QMC5883L can be read, and the 
                 data fusion of both can be realized
-  Versions    : v1.0.1
+  Versions    : v1.0.2
   Auther      : Vegtable SYC
-  Modification: 2024/08/26
+  Modification: 2024/08/28
 **********************************************************************/
 
 #include "IMU_Fusion_SYC.h"
@@ -80,7 +80,7 @@ void IMU::MPU6050_SetGyroOffsets(float x, float y, float z){
   gz_offset = z;
 }
 
-void IMU::MPU6050_CalcGyroOffsets(byte addr){
+void IMU::MPU6050_CalcGyroOffsets(){
   int16_t gx = 0, gy = 0, gz = 0;
   float add_x,add_y,add_z;
   delay(2000);
@@ -92,10 +92,10 @@ void IMU::MPU6050_CalcGyroOffsets(byte addr){
     if(i % 500 == 0){
       Serial.print(".");
     }
-    wire->beginTransmission(addr);
+    wire->beginTransmission(MPU6050_ADDR);
     wire->write(0x43);// Read the gyroscope
     wire->endTransmission(false);
-    wire->requestFrom((int)addr, 6);// Read 6 bits consecutively
+    wire->requestFrom((int)MPU6050_ADDR, 6);// Read 6 bits consecutively
 
     gx = wire->read() << 8 | wire->read();
     gy = wire->read() << 8 | wire->read();
@@ -226,12 +226,12 @@ int IMU::Data_Fusion() {
   }
   if(AngleZ <= 0)
   {
-    AngleZ = map(AngleZ,0,-360,0,360);
+    AngleZ = map(AngleZ,0,-359,0,359);
   }else{
-    AngleZ = map(AngleZ,0,360,360,0);
+    AngleZ = map(AngleZ,0,359,359,0);
   }
   AngleZ = AngleZ + Angle_Absolute;
-  if(AngleZ > 360)
+  if(AngleZ >= 360)
     AngleZ -= 360;
   // Complementary filtering
   IMU::ComplementaryFilter(AngleZ, gyroz, 0.01, heading);

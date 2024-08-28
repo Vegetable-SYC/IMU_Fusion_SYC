@@ -30,7 +30,7 @@ class IMU{
   void begin(uint8_t choose = CHOOSE_ALL);
 
   void MPU6050_SetGyroOffsets(float x, float y, float z);
-  void MPU6050_CalcGyroOffsets(byte addr);
+  void MPU6050_CalcGyroOffsets();
   void calcGyroOffsets();
   void Calculate();
 
@@ -61,7 +61,6 @@ class IMU{
   float getAngleY();
   float getAngleZ();
 
-  void QMC5883L_Calculate(); 
   void QMC5883L_SetOffsets(float x, float y, float z);
   void QMC5883L_SetScales(float x, float y, float z);
   int Data_Fusion();

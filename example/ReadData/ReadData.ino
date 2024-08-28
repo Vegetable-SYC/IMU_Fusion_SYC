@@ -10,7 +10,7 @@ void setup() {
   imu.QMC5883L_SetScales(1,0.96,0);
   imu.Heading_Offset(360); // Set offest
   imu.begin(CHOOSE_ALL);// IMU initialization
-  imu.MPU6050_CalcGyroOffsets(MPU6050_ADDR);// MPU6050 calibration
+  imu.MPU6050_CalcGyroOffsets();// MPU6050 calibration
 }
 
 void loop() {
