@@ -1,10 +1,16 @@
-# IMU_Fusion_SYC   v1.0.1
+# IMU_Fusion_SYC   v1.0.2
 
-The data of MPU6050 and QMC5883L can be read, and the data fusion of both can be realized
+The data of MPU6050 and QMC5883L can be read, and the data fusion of both can be realized, In github, I also provide a QMC5883L calibration value calculation [script](https://github.com/Vegetable-SYC/IMU_Fusion_SYC), which also contains the calibration method,Currently, only Chinese and English are supported.
 
 ## **How** to use?
 
 you can see [example sketch](https://github.com/Vegetable-SYC/IMU_Fusion_SYC), It includes how to read the data and how to get the merged data.
+
+
+
+## Attention
+
+Note that it is best to execute the method other than the gyroscope automatic calibration before running the begin method to avoid data calculation errors
 
 
 
@@ -114,7 +120,7 @@ void setup() {
   // put your setup code here, to run once:
   Wire.begin();
   imu.begin(CHOOSE_MPU6050);				// Only MPU6050 is initialized
-  imu.MPU6050_CalcGyroOffsets(MPU6050_ADDR);// MPU6050 calibration
+  imu.MPU6050_CalcGyroOffsets();			// MPU6050 calibration
 }
 ```
 
@@ -134,6 +140,27 @@ Z_offest : 2.11
 
 
 
+### MPU6050 Sets the calibration value
+
+If you know the deviation of the MPU6050 gyroscope, you can choose to manually set the deviation, so that the device initialization time will be greatly reduced.
+
+#### example
+
+```c
+#include "IMU_Fusion_SYC.h"
+
+IMU imu(Wire);
+
+void setup() {
+  // put your setup code here, to run once:
+  Wire.begin();
+  imu.begin(CHOOSE_MPU6050);			  // Only MPU6050 is initialized
+  imu.MPU6050_SetGyroOffsets(***,***,***);// MPU6050 calibration value
+}
+```
+
+
+
 ### Data_Fusion
 
 A simple data fusion scheme is provided in the library, which can effectively fuse the data of the two sensors, and the combination of the two can effectively suppress the zero drift of the MPU6050 and enhance the accuracy of the Angle of motion.
@@ -149,11 +176,11 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);// Set baud rate
   Wire.begin();
-  imu.QMC5883L_SetOffsets(-377.5,-199,250);
-  imu.QMC5883L_SetScales(1,0.96,0);
+  imu.QMC5883L_SetOffsets(***,***,***);
+  imu.QMC5883L_SetScales(*,*,*);
   imu.Heading_Offset(360); 					// Set offest
   imu.begin(CHOOSE_ALL);					// IMU initialization
-  imu.MPU6050_CalcGyroOffsets(MPU6050_ADDR);// MPU6050 calibration
+  imu.MPU6050_CalcGyroOffsets();// MPU6050 calibration
 }
 
 void loop() {
