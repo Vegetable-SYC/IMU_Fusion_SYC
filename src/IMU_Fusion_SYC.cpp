@@ -2,7 +2,7 @@
   Filename    : IMU_SYC
   Description : The data of MPU6050 and QMC5883L can be read, and the 
                 data fusion of both can be realized
-  Versions    : v1.0.2
+  Versions    : v1.0.3
   Auther      : Vegtable SYC
   Modification: 2024/08/28
 **********************************************************************/
@@ -15,7 +15,7 @@ IMU::IMU(TwoWire &i){//Get wire
 }
 
 void IMU::begin(uint8_t choose){
-  delay(2000);
+  delay(1000);
   Serial.println("***********************************************************");
   // QMC58883L initialized
   if(choose == CHOOSE_QMC5883L || choose == CHOOSE_ALL)
@@ -44,6 +44,7 @@ void IMU::begin(uint8_t choose){
     }else{
       Serial.println("MPU_Init!!!");
       MPU6050_state = true;
+      delay(100);
       I2C_Write(MPU6050_SMPLRT_DIV, 0x00, MPU6050_ADDR);
       I2C_Write(MPU6050_CONFIG, 0x00, MPU6050_ADDR);
       I2C_Write(MPU6050_GYRO_CONFIG, 0x08, MPU6050_ADDR);
@@ -53,7 +54,8 @@ void IMU::begin(uint8_t choose){
   }
   Serial.println("");
   Serial.println("***********************************************************");
-  delay(1500);
+  delay(1000);
+  preInterval = millis();
   IMU::Calculate();
   Angle_Absolute = heading;
 }
@@ -83,7 +85,7 @@ void IMU::MPU6050_SetGyroOffsets(float x, float y, float z){
 void IMU::MPU6050_CalcGyroOffsets(){
   int16_t gx = 0, gy = 0, gz = 0;
   float add_x,add_y,add_z;
-  delay(2000);
+  delay(1000);
   Serial.println("***********************************************************");
   Serial.println("MPU6050 is being calibrated");
   Serial.println("Uneven placement can cause data errors");
@@ -153,7 +155,6 @@ void IMU::Calculate() {
       wire->endTransmission(false); 
       wire->requestFrom((int)MPU6050_ADDR, 14); // Request to read 14 bytes of data from the MPU6050
 
-
       // Read the accelerometer data
       raw_accx = wire->read() << 8 | wire->read(); // Read the X-axis acceleration
       raw_accy = wire->read() << 8 | wire->read(); // Read the Y-axis acceleration
@@ -202,7 +203,7 @@ void IMU::Calculate() {
 }
 int IMU::Data_Fusion() {
   // Calculate the accelerometer value
-  float accMagnitude = sqrt(accx * accx + accy * accy + accz * accz);
+  IMU::getAccMagnitude();
 
   // Detect the static state
   bool isStationary = (abs(accMagnitude - 0.98) < 0.03);
@@ -268,6 +269,12 @@ void IMU::QMC5883L_SetScales(float x, float y, float z) {
 	x_scale = x;
 	y_scale = y;
 	z_scale = z;
+}
+
+float IMU::getAccMagnitude()
+{
+  accMagnitude = sqrt(accx * accx + accy * accy + accz * accz);
+  return accMagnitude;
 }
 
 int16_t IMU::getraw_accx(){return raw_accx;}

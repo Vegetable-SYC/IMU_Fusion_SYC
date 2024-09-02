@@ -61,6 +61,8 @@ class IMU{
   float getAngleY();
   float getAngleZ();
 
+  float getAccMagnitude();
+
   void QMC5883L_SetOffsets(float x, float y, float z);
   void QMC5883L_SetScales(float x, float y, float z);
   int Data_Fusion();
@@ -86,12 +88,13 @@ class IMU{
 
   float Gyro_AngleX, Gyro_AngleY, Gyro_AngleZ, Acc_AngleX, Acc_AngleY, Acc_AngleZ;
 
-  int AngleX, AngleY, AngleZ;
+  float AngleX, AngleY, AngleZ;
 
   int Angle_Round, Angle_Absolute, heading_offset;
 
   float QMC_RawX, QMC_RawY, QMC_RawZ, QMC_X, QMC_Y, QMC_Z, heading; 
   float x_offset, y_offset, z_offset, x_scale = 1, y_scale = 1, z_scale = 1;
+  float accMagnitude;
 
   uint32_t previousMillis;
 
