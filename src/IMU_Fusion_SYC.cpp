@@ -2,7 +2,7 @@
   Filename    : IMU_SYC
   Description : The data of MPU6050 and QMC5883L can be read, and the 
                 data fusion of both can be realized
-  Versions    : v1.1.4
+  Versions    : v1.1.5
   Auther      : Vegtable SYC
   Modification: 2024/08/28
 **********************************************************************/
@@ -15,7 +15,7 @@ IMU::IMU(TwoWire &i){//Get wire
 }
 
 void IMU::begin(uint8_t choose){
-  delay(1000);
+  delay(3000);
   Serial.println("***********************************************************");
   // QMC58883L initialized
   if(choose == CHOOSE_QMC5883L || choose == CHOOSE_ALL)
@@ -38,18 +38,20 @@ void IMU::begin(uint8_t choose){
   if(choose == CHOOSE_MPU6050 || choose == CHOOSE_ALL)
   {
     Serial.println("");
+    delay(1000);
     if(I2C_Read(MPU6050_ID, MPU6050_ADDR) != MPU6050_ADDR)
     {
       Serial.println("MPU_Init false!!! \t Please check whether the connection is correct");
     }else{
       Serial.println("MPU_Init!!!");
       MPU6050_state = true;
-      delay(100);
       I2C_Write(MPU6050_SMPLRT_DIV, 0x00, MPU6050_ADDR);
       I2C_Write(MPU6050_CONFIG, 0x00, MPU6050_ADDR);
       I2C_Write(MPU6050_GYRO_CONFIG, 0x08, MPU6050_ADDR);
       I2C_Write(MPU6050_ACCEL_CONFIG, 0x00, MPU6050_ADDR);
       I2C_Write(MPU6050_PWR_MGMT_1, 0x01, MPU6050_ADDR);
+      delay(100);
+      I2C_Write(MPU6050_GYRO_CONFIG, 0x08, MPU6050_ADDR);
     }
   }
   Serial.println("");

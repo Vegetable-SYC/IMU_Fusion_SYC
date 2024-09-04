@@ -1,4 +1,4 @@
-# IMU_Fusion_SYC   v1.1.4
+# IMU_Fusion_SYC   v1.1.5
 
 The data of MPU6050 and QMC5883L can be read, and the data fusion of both can be realized, In github, I also provide a QMC5883L calibration value calculation [script](https://github.com/Vegetable-SYC/IMU_Fusion_SYC), which also contains the calibration method,Currently, only Chinese and English are supported.
 
