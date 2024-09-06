@@ -16,7 +16,7 @@ IMU::IMU(TwoWire &i){//Get wire
 
 void IMU::begin(uint8_t choose){
   delay(3000);
-  Serial.println("***********************************************************");
+  Serial.println("*****************************************************************************");
   // QMC58883L initialized
   if(choose == CHOOSE_QMC5883L || choose == CHOOSE_ALL)
   {
@@ -55,7 +55,7 @@ void IMU::begin(uint8_t choose){
     }
   }
   Serial.println("");
-  Serial.println("***********************************************************");
+  Serial.println("*****************************************************************************");
   delay(1000);
   preInterval = millis();
   IMU::Calculate();
@@ -88,7 +88,7 @@ void IMU::MPU6050_CalcGyroOffsets(){
   int16_t gx = 0, gy = 0, gz = 0;
   float add_x,add_y,add_z;
   delay(1000);
-  Serial.println("***********************************************************");
+  Serial.println("*****************************************************************************");
   Serial.println("MPU6050 is being calibrated");
   Serial.println("Uneven placement can cause data errors");
 
@@ -118,7 +118,7 @@ void IMU::MPU6050_CalcGyroOffsets(){
   Serial.print("X_offest : ");Serial.println(gx_offset);
   Serial.print("Y_offest : ");Serial.println(gy_offset);
   Serial.print("Z_offest : ");Serial.println(gz_offset);
-  Serial.print("***********************************************************");
+  Serial.print("*****************************************************************************");
   delay(1000);
 }
 
@@ -284,10 +284,11 @@ void IMU::QMC5883L_Calibration()
   static bool mes;
   if(mes == false)
   {
-    Serial.print("\n***********************************************************\n");
+    Serial.print("\n*****************************************************************************\n");
     Serial.print("QMC5883L calibration will begin in 5s\n");
-    Serial.print("After 5 seconds, please hold QMC5883L motionless for 10s\n");
-    Serial.print("Now place QMC5883L on a horizontal surface and hold still\n");
+    Serial.print("After 5 seconds, Please rotate QMC5883L horizontally\n");
+    Serial.print("Please note that the rotation speed should be uniform\n");
+    Serial.print("Not too fast or too slow, otherwise it will affect the calibration data");
     for(int i = 0; i < 5; i++){
         Serial.print(".");
         delay(1000);
@@ -350,7 +351,7 @@ void IMU::QMC5883L_Calibration()
 
     QMCx_scale = 1;
     QMCy_scale = (qmc_ymax - qmc_ymin) / (qmc_xmax - qmc_xmin);
-    Serial.print("\n*****************************************************************\n");
+    Serial.print("\n*****************************************************************************\n");
     Serial.print("QMC calibration complete\n");
     Serial.print("Below is the raw data for calibration\n");
     Serial.print("XMax:");
@@ -374,7 +375,7 @@ void IMU::QMC5883L_Calibration()
     Serial.print("\t");
     Serial.print("y_scale:");
     Serial.println(QMCy_scale);
-    Serial.print("*****************************************************************\n");
+    Serial.print("*****************************************************************************\n");
     delay(5000);
   }
 }
