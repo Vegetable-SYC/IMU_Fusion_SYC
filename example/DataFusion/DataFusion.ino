@@ -1,3 +1,13 @@
+/********************************************************
+
+Author: Vegetable_SYC
+
+Address: https://github.com/Vegetable-SYC/IMU_Fusion_SYC
+
+Version: v1.1.6
+
+********************************************************/
+
 #include "IMU_Fusion_SYC.h"
 
 IMU imu(Wire);

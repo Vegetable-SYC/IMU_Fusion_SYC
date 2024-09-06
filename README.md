@@ -1,4 +1,4 @@
-# IMU_Fusion_SYC   v1.1.5
+# IMU_Fusion_SYC   v1.1.6
 
 The data of MPU6050 and QMC5883L can be read, and the data fusion of both can be realized, In github, I also provide a QMC5883L calibration value calculation [script](https://github.com/Vegetable-SYC/IMU_Fusion_SYC), which also contains the calibration method,Currently, only Chinese and English are supported.
 
@@ -103,11 +103,58 @@ void setup() {
 }
 ```
 
+### QMC5883L Calibration
+
+After performing the calibration procedure, it is necessary to continue to rotate QMC5883L until the progress bar is full.
+
+#### example
+
+```c
+/**************************************************************************************************
+
+Author: Vegetable_SYC
+
+Address: https://github.com/Vegetable-SYC/IMU_Fusion_SYC
+
+Version: v1.1.6
+
+QMC5883L calibration steps:
+Step 1: Start by running the following code directly and viewing serial monitor
+step 2: You need to keep turning QMC5883L until the progress bar is full
+Step 3: Enter the value obtained in step1 into imu.QMC5883L_SetOffsets and imu.QMC5883L_SetScales
+Step 4: Annotation imu.QMC5883L_Calibration();
+Step 5: Uncomment the function imu.Calculate and Serial.println(imu.getHeading())
+Step 6: Upload the modified program to get the correct Angle value
+
+**************************************************************************************************/
+#include "IMU_Fusion_SYC.h"
+
+IMU imu(Wire);
+
+void setup() {
+  Serial.begin(9600);
+  Serial.print("\n");
+  Wire.begin();
+  // After calibration set the QMC5883L calibration value
+  // imu.QMC5883L_SetOffsets(-117, -634, 0);
+  // imu.QMC5883L_SetScales(1.00, 0.91, 0);
+  imu.begin(CHOOSE_QMC5883L); // Select QMC5883L
+}
+
+void loop() {
+  imu.QMC5883L_Calibration();
+  // imu.Calculate();
+  // Serial.println(imu.getHeading());
+}
+```
+
 
 
 ### MPU6050 calibration
 
 The gyroscope calibration of the MPU6050 is automatic. After calling the MPU6050_CalcGyroOffsets method, the MPU6050 only needs to be placed on the horizontal surface. During the calibration, the MPU6050 should not be moved
+
+Please note that the automatic calibration procedure needs to be executed after the MPU6050 is initialized, and the  execution order cannot be changed, otherwise an error may occur!!!!
 
 #### example
 

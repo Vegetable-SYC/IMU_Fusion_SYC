@@ -34,6 +34,10 @@ class IMU{
   void calcGyroOffsets();
   void Calculate();
 
+  float getQMCRawx();
+  float getQMCRawy();
+  float getQMCRawz();
+
   int16_t getraw_accx();
   int16_t getraw_accy();
   int16_t getraw_accz();
@@ -65,6 +69,7 @@ class IMU{
 
   void QMC5883L_SetOffsets(float x, float y, float z);
   void QMC5883L_SetScales(float x, float y, float z);
+  void QMC5883L_Calibration();
   int Data_Fusion();
   void Error_compensation();
   void ComplementaryFilter(int acc_z, float gyro, float dt, int acc_heading);
@@ -97,6 +102,14 @@ class IMU{
   float accMagnitude;
 
   uint32_t previousMillis;
+
+  unsigned long previoustime = 0; // Time of the last update
+  const long val = 600;           // Interval of each progress bar section (600 ms)
+  const int barLength = 50;       // Progress bar length
+  int currentProgress = 0;        // Current progress
+  float qmc_xmax, qmc_xmin, qmc_ymax, qmc_ymin, qmc_zmax, qmc_zmin;
+  float QMCx_offset, QMCy_offset, QMCz_offset;
+  float QMCx_scale, QMCy_scale, QMCz_scale;
 
   int Angle_Fusion;
 

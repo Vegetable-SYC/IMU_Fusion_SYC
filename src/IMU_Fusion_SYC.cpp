@@ -279,6 +279,106 @@ float IMU::getAccMagnitude()
   return accMagnitude;
 }
 
+void IMU::QMC5883L_Calibration()
+{
+  static bool mes;
+  if(mes == false)
+  {
+    Serial.print("\n***********************************************************\n");
+    Serial.print("QMC5883L calibration will begin in 5s\n");
+    Serial.print("After 5 seconds, please hold QMC5883L motionless for 10s\n");
+    Serial.print("Now place QMC5883L on a horizontal surface and hold still\n");
+    for(int i = 0; i < 5; i++){
+        Serial.print(".");
+        delay(1000);
+    }
+    mes = true;
+    Serial.print("\n");
+  }
+  // Get the current time
+  unsigned long currentMillis = millis();
+  IMU::Calculate();
+  if(IMU::getQMCRawx() > qmc_xmax)
+  {
+    qmc_xmax = IMU::getQMCRawx();
+  }
+  if(IMU::getQMCRawx() < qmc_xmin)
+  {
+    qmc_xmin = IMU::getQMCRawx();
+  }
+  if(IMU::getQMCRawy() > qmc_ymax)
+  {
+    qmc_ymax = IMU::getQMCRawy();
+  }
+  if(IMU::getQMCRawy() < qmc_ymin)
+  {
+    qmc_ymin = IMU::getQMCRawy();
+  }
+
+  // Check whether the progress bar is updated
+  if (currentMillis - previoustime >= val && currentProgress < barLength) 
+  {
+    previoustime = currentMillis; // Update the last time
+    currentProgress++; // Increase the current progress
+
+    // Calculate the percentage of progress
+    float progress = (float)currentProgress / barLength;
+
+    // Print a progress bar
+    Serial.print("\r[");
+    int pos = barLength * progress;
+    for (int j = 0; j < barLength; j++) {
+      if (j < pos) {
+        Serial.print("=");
+      } else {
+        Serial.print(" ");
+      }
+    }
+    Serial.print("] ");
+    Serial.print((int)(progress * 100)); // Print percentage
+    Serial.print("%\n");
+
+    QMCx_offset = (qmc_xmax + qmc_xmin) / 2;
+    QMCy_offset = (qmc_ymax + qmc_ymin) / 2;
+
+    QMCx_scale = 1;
+    QMCy_scale = (qmc_ymax - qmc_ymin) / (qmc_xmax - qmc_xmin);
+  }
+  if(currentProgress == barLength){
+    QMCx_offset = (qmc_xmax + qmc_xmin) / 2;
+    QMCy_offset = (qmc_ymax + qmc_ymin) / 2;
+
+    QMCx_scale = 1;
+    QMCy_scale = (qmc_ymax - qmc_ymin) / (qmc_xmax - qmc_xmin);
+    Serial.print("\n*****************************************************************\n");
+    Serial.print("QMC calibration complete\n");
+    Serial.print("Below is the raw data for calibration\n");
+    Serial.print("XMax:");
+    Serial.print(qmc_xmax);
+    Serial.print("\t");
+    Serial.print("XMin:");
+    Serial.println(qmc_xmin);
+    Serial.print("YMax:");
+    Serial.print(qmc_ymax);
+    Serial.print("\t");
+    Serial.print("YMin:");
+    Serial.println(qmc_ymin);
+    Serial.print("Add the following calculated data to the calibration function\n");
+    Serial.print("x_offest:");
+    Serial.print(QMCx_offset);
+    Serial.print("\t");
+    Serial.print("y_offest:");
+    Serial.println(QMCy_offset);
+    Serial.print("x_scale:");
+    Serial.print(QMCx_scale);
+    Serial.print("\t");
+    Serial.print("y_scale:");
+    Serial.println(QMCy_scale);
+    Serial.print("*****************************************************************\n");
+    delay(5000);
+  }
+}
+
 int16_t IMU::getraw_accx(){return raw_accx;}
 int16_t IMU::getraw_accy(){return raw_accy;}
 int16_t IMU::getraw_accz(){return raw_accz;}
@@ -307,3 +407,7 @@ float IMU::getAngleY(){return AngleY;}
 float IMU::getAngleZ(){return AngleZ;}
 
 int IMU::getHeading(){return heading;}
+
+float IMU::getQMCRawx(){return QMC_RawX;}
+float IMU::getQMCRawy(){return QMC_RawY;}
+float IMU::getQMCRawz(){return QMC_RawZ;}
