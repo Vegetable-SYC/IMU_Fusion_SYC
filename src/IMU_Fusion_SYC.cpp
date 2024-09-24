@@ -2,7 +2,7 @@
   Filename    : IMU_SYC
   Description : The data of MPU6050 and QMC5883L can be read, and the 
                 data fusion of both can be realized
-  Versions    : v1.1.5
+  Versions    : v1.1.7
   Auther      : Vegtable SYC
   Modification: 2024/08/28
 **********************************************************************/
