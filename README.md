@@ -1,4 +1,4 @@
-# IMU_Fusion_SYC   v1.1.8
+# IMU_Fusion_SYC   v1.1.9
 
 The data of MPU6050 and QMC5883L can be read, and the data fusion of both can be realized, In github, I also provide a QMC5883L calibration value calculation [script](https://github.com/Vegetable-SYC/IMU_Fusion_SYC), which also contains the calibration method,Currently, only Chinese and English are supported.
 
@@ -212,6 +212,8 @@ void setup() {
 
 A simple data fusion scheme is provided in the library, which can effectively fuse the data of the two sensors, and the combination of the two can effectively suppress the zero drift of the MPU6050 and enhance the accuracy of the Angle of motion.
 
+In the actual Angle fusion, I found that there would be some burrs when the Angle changed, so I had to use the filtering algorithm. Although the median filter could filter well, when the Angle data changed between 0 and 360, the Angle would jitter greatly due to the large change amplitude. Therefore, I adopted an incremental data processing method. The parameter of the DataFusion () function represents the smoothing factor alpha, which ranges from 0 to 1. The smaller the value of the smoothing factor, the smoother the output of the Angle, but the slower the response. The larger the value, the more accurate the output of the Angle and the faster the response.
+
 #### example
 
 ```c
@@ -232,15 +234,13 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  imu.Calculate();							// calculating data
+  imu.Calculate();							// Calculating data
   Serial.println("");
 
-  Serial.print("Data_Fusion:");
-  Serial.println(imu.Data_Fusion());
+  Serial.print("Data_Fusion:");				
+  Serial.println(imu.Data_Fusion(0.1));     // Output fusion Angle
 }
 ```
-
-
 
 ## Licence
 

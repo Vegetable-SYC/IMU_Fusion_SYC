@@ -2,9 +2,9 @@
   Filename    : IMU_SYC
   Description : The data of MPU6050 and QMC5883L can be read, and the 
                 data fusion of both can be realized
-  Versions    : v1.1.8
+  Versions    : v1.1.9
   Auther      : Vegtable SYC
-  Modification: 2024/08/28
+  Modification: 2024/09/27
 **********************************************************************/
 
 #include "IMU_Fusion_SYC.h"
@@ -203,7 +203,7 @@ void IMU::Calculate() {
       preInterval = millis(); // Update the time of the last read
   }
 }
-int IMU::Data_Fusion() {
+int IMU::Data_Fusion(float alpha) {
   // Calculate the accelerometer value
   IMU::getAccMagnitude();
 
@@ -238,7 +238,24 @@ int IMU::Data_Fusion() {
     AngleZ -= 360;
   // Complementary filtering
   IMU::ComplementaryFilter(AngleZ, gyroz, 0.01, heading);
-  Angle_Fusion = (1-b) * AngleZ + b * heading;
+  new_angle = (1-b) * AngleZ + b * heading;
+
+  // Calculate the difference between the current Angle and the new value
+  float diff = new_angle - Angle_Fusion;
+
+  // Handle cases that cross 0 degrees
+  if (diff > 180) {
+      diff -= 360;
+  } else if (diff < -180) {
+      diff += 360;
+  }
+
+  // Use weighted average to update angles
+  Angle_Fusion += alpha * diff;
+
+  // Make sure the result is in the range [0, 360)
+  Angle_Fusion = fmod(Angle_Fusion + 360, 360);
+
   // Error repair
   IMU::Error_compensation();
 

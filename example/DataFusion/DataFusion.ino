@@ -29,5 +29,5 @@ void loop() {
   Serial.println("");
 
   Serial.print("Data_Fusion:");
-  Serial.println(imu.Data_Fusion());
+  Serial.println(imu.Data_Fusion(0.1));
 }

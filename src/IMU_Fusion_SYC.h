@@ -70,7 +70,7 @@ class IMU{
   void QMC5883L_SetOffsets(float x, float y, float z);
   void QMC5883L_SetScales(float x, float y, float z);
   void QMC5883L_Calibration();
-  int Data_Fusion();
+  int Data_Fusion(float alpha);
   void Error_compensation();
   void ComplementaryFilter(int acc_z, float gyro, float dt, int acc_heading);
   void Heading_Offset(int offest);
@@ -111,7 +111,7 @@ class IMU{
   float QMCx_offset, QMCy_offset, QMCz_offset;
   float QMCx_scale, QMCy_scale, QMCz_scale;
 
-  int Angle_Fusion;
+  int Angle_Fusion, new_angle;
 
   float a,b = 0.1;  
   float interval;
