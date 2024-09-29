@@ -8,12 +8,6 @@ you can see [example sketch](https://github.com/Vegetable-SYC/IMU_Fusion_SYC), I
 
 
 
-## Attention
-
-Note that it is best to execute the method other than the gyroscope automatic calibration before running the begin method to avoid data calculation errors
-
-
-
 ### IMU_INIT
 
 In this library, the data of MPU6050 and QMC5883L can be read separately or at the same time. However, only the same I2C interface can be used when the two sensors are read at the same time. If the data of only one sensor needs to be read, you can set it by using the begin() method
@@ -105,7 +99,7 @@ void setup() {
 
 ### QMC5883L Calibration
 
-After performing the calibration procedure, it is necessary to continue to rotate QMC5883L until the progress bar is full.
+The calibration of QMC5883L can be done by calling this function, after the program runs, please follow the comments below, please note that the calibration of QMC5883L does not need to run every time the code is executed, so you do not need to write this function in your code!
 
 #### example
 
@@ -209,6 +203,8 @@ void setup() {
 
 
 ### Data_Fusion
+
+Attention please!! Before performing data fusion, ensure that the MPU6050 and QMC5883L readings are correct; otherwise, the fused Angle value will be incorrect.
 
 A simple data fusion scheme is provided in the library, which can effectively fuse the data of the two sensors, and the combination of the two can effectively suppress the zero drift of the MPU6050 and enhance the accuracy of the Angle of motion.
 
