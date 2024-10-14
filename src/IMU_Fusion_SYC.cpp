@@ -2,7 +2,7 @@
   Filename    : IMU_SYC
   Description : The data of MPU6050 and QMC5883L can be read, and the 
                 data fusion of both can be realized
-  Versions    : v1.1.9
+  Versions    : v1.1.10
   Auther      : Vegtable SYC
   Modification: 2024/09/27
 **********************************************************************/
@@ -115,16 +115,16 @@ void IMU::MPU6050_CalcGyroOffsets(){
 
   Serial.println();
   Serial.println("Calibration complete!");
-  Serial.print("X_offest : ");Serial.println(gx_offset);
-  Serial.print("Y_offest : ");Serial.println(gy_offset);
-  Serial.print("Z_offest : ");Serial.println(gz_offset);
+  Serial.print("X_offset : ");Serial.println(gx_offset);
+  Serial.print("Y_offset : ");Serial.println(gy_offset);
+  Serial.print("Z_offset : ");Serial.println(gz_offset);
   Serial.print("*****************************************************************************");
   delay(1000);
 }
 
-void IMU::Heading_Offset(int offest)
+void IMU::Heading_Offset(int offset)
 {
-  heading_offset = offest;
+  heading_offset = offset;
 }
 
 void IMU::Calculate() {
@@ -382,10 +382,10 @@ void IMU::QMC5883L_Calibration()
     Serial.print("YMin:");
     Serial.println(qmc_ymin);
     Serial.print("Add the following calculated data to the calibration function\n");
-    Serial.print("x_offest:");
+    Serial.print("x_offset:");
     Serial.print(QMCx_offset);
     Serial.print("\t");
-    Serial.print("y_offest:");
+    Serial.print("y_offset:");
     Serial.println(QMCy_offset);
     Serial.print("x_scale:");
     Serial.print(QMCx_scale);
