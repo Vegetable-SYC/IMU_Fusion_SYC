@@ -70,7 +70,7 @@ class IMU{
   void QMC5883L_SetOffsets(float x, float y, float z);
   void QMC5883L_SetScales(float x, float y, float z);
   void QMC5883L_Calibration();
-  int Data_Fusion(float alpha);
+  int Data_Fusion(float alpha = 0.1);
   void Error_compensation();
   void ComplementaryFilter(int acc_z, float gyro, float dt, int acc_heading);
   void Heading_Offset(int offest);
