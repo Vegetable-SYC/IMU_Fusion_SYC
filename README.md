@@ -208,7 +208,7 @@ Attention please!! Before performing data fusion, ensure that the MPU6050 and QM
 
 A simple data fusion scheme is provided in the library, which can effectively fuse the data of the two sensors, and the combination of the two can effectively suppress the zero drift of the MPU6050 and enhance the accuracy of the Angle of motion.
 
-In the actual Angle fusion, I found that there would be some burrs when the Angle changed, so I had to use the filtering algorithm. Although the median filter could filter well, when the Angle data changed between 0 and 360, the Angle would jitter greatly due to the large change amplitude. Therefore, I adopted an incremental data processing method. The parameter of the DataFusion () function represents the smoothing factor alpha, which ranges from 0 to 1. The smaller the value of the smoothing factor, the smoother the output of the Angle, but the slower the response. The larger the value, the more accurate the output of the Angle and the faster the response.
+In the actual Angle fusion, I found that there would be some burrs when the Angle changed, so I had to use the filtering algorithm. Although the median filter could filter well, when the Angle data changed between 0 and 360, the Angle would jitter greatly due to the large change amplitude. Therefore, I adopted an incremental data processing method. The parameter of the DataFusion () function represents the smoothing factor alpha, which ranges from 0 to 1. If no parameter is written, the default value is 0.1. The smaller the value of the smoothing factor, the smoother the output of the Angle, but the slower the response. The larger the value, the more accurate the output of the Angle and the faster the response.
 
 #### example
 
