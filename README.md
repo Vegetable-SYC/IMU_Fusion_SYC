@@ -1,12 +1,18 @@
-# IMU_Fusion_SYC   v1.2.0
+# IMU_Fusion_SYC   v1.2.1
 
 The data of MPU6050 and QMC5883L can be read, and the data fusion of both can be realized.
+
+## Supported development boards
+
+**Currently known supported boards are listed below. Others haven't been tested yet. If your board is also compatible, please let me know.**
+
+**1、Arduino R4 wifi/Arduino R4 mini**
+
+**2、pico/pico W/pico 2/pico 2 W**
 
 ## **How** to use?
 
 you can see [example sketch](https://github.com/Vegetable-SYC/IMU_Fusion_SYC), It includes how to read the data and how to get the merged data.
-
-
 
 ### IMU_INIT
 

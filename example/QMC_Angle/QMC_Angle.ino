@@ -1,7 +1,7 @@
 /********************************************************
   @author: Vegetable_SYC
   @address: https://github.com/Vegetable-SYC/IMU_Fusion_SYC
-  @version: v1.2.0
+  @version: v1.2.1
   
   @note:
    Please note that the automatic calibration procedure needs
@@ -13,20 +13,21 @@
    you can contact me on GitHub or send me an email at 
    1318270340@qq.com.
  *******************************************************/
-
 #include "IMU_Fusion_SYC.h"
 
 IMU imu(Wire);
 
 void setup() {
   Serial.begin(9600);
+  Serial.print("\n");
   Wire.begin();
-  imu.begin(CHOOSE_MPU6050);             // Select MPU6050
-  // imu.MPU6050_SetGyroOffsets(0, 0, 0);// MPU6050 manually calibrated
-  imu.MPU6050_CalcGyroOffsets();         // MPU6050 automatic calibration
+  // After calibration set the QMC5883L calibration value
+  imu.QMC5883L_SetOffsets(-117, -634, 0);
+  imu.QMC5883L_SetScales(1.00, 0.91, 0);
+  imu.begin(CHOOSE_QMC5883L); // Select QMC5883L
 }
 
 void loop() {
-  imu.Calculate();                       // Calculating Angle
-  Serial.println(imu.getAngleZ());
+  imu.Calculate();
+  Serial.println(imu.getHeading());
 }

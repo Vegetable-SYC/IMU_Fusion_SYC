@@ -93,7 +93,7 @@ void IMU::MPU6050_SetGyroOffsets(float x, float y, float z){
 
 void IMU::MPU6050_CalcGyroOffsets(){
   int16_t gx = 0, gy = 0, gz = 0;
-  float add_x,add_y,add_z;
+  float add_x = 0,add_y = 0,add_z = 0;
   delay(1000);
   Serial.println("*****************************************************************************");
   Serial.println("MPU6050 is being calibrated");
@@ -204,8 +204,8 @@ void IMU::Calculate() {
       Gyro_AngleZ += gyroz * interval; // Update the Z-axis Angle
 
       // Accelerometer and gyroscope data are combined to update the total Angle
-      AngleX = (AngleX + gyrox * interval) + Acc_AngleX; // Updated total X-axis Angle
-      AngleY = (AngleY + gyroy * interval) + Acc_AngleY; // Updated total Y-axis Angle
+      AngleX = 0.98 * (AngleX + gyrox * interval) + 0.02 * Acc_AngleX; // Updated total X-axis Angle
+      AngleY = 0.98 * (AngleY + gyroy * interval) + 0.02 * Acc_AngleY; // Updated total Y-axis Angle
       AngleZ = Gyro_AngleZ;                              // Z-axis Angle directly uses the gyroscope Angle
 
       preInterval = millis(); // Update the time of the last read
@@ -414,8 +414,8 @@ int16_t IMU::getraw_gyroy(){return raw_gyroy;}
 int16_t IMU::getraw_gyroz(){return raw_gyroz;}
 
 float IMU::getaccx(){return accx;}
-float IMU::getaccy(){return accx;}
-float IMU::getaccz(){return accx;}
+float IMU::getaccy(){return accy;}
+float IMU::getaccz(){return accz;}
 
 float IMU::getgyrox(){return gyrox;}
 float IMU::getgyroy(){return gyroy;}

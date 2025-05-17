@@ -105,9 +105,9 @@ class IMU{
 
   int16_t raw_accx, raw_accy, raw_accz, raw_gyrox, raw_gyroy, raw_gyroz, rawTemp;
 
-  float gx_offset, gy_offset, gz_offset;
+  float gx_offset = 0, gy_offset = 0, gz_offset = 0;
 
-  float accx, accy, accz, gyrox, gyroy, gyroz;
+  float accx = 0, accy = 0, accz = 0, gyrox = 0, gyroy = 0, gyroz = 0;
 
   float Gyro_AngleX, Gyro_AngleY, Gyro_AngleZ, Acc_AngleX, Acc_AngleY, Acc_AngleZ;
 
