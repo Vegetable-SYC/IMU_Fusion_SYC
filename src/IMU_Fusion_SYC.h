@@ -1,3 +1,19 @@
+/********************************************************
+  @author: Vegetable_SYC
+  @address: https://github.com/Vegetable-SYC/IMU_Fusion_SYC
+  @version: v1.2.0
+  
+  @note:
+   Please note that the automatic calibration procedure needs
+   to be executed after the MPU6050 is initialized, and the 
+   execution order cannot be changed, otherwise an error may
+   occur!!!!
+   
+   If you find that some boards are not working, 
+   you can contact me on GitHub or send me an email at 
+   1318270340@qq.com.
+ *******************************************************/
+
 #ifndef IMU_SYC_H
 #define IMU_SYC_H
 
@@ -8,7 +24,9 @@
 #define CHOOSE_MPU6050         1
 #define CHOOSE_QMC5883L        2
 
-#define MPU6050_ID             0x75// MPU6050 ID
+#define MPU6050_ID1            0x68
+#define MPU6050_ID2            0x70
+
 #define MPU6050_ADDR           0x68// MPU6050 Address
 #define MPU6050_SMPLRT_DIV     0x19// sample frequency
 #define MPU6050_CONFIG         0x1a// Filter frequency

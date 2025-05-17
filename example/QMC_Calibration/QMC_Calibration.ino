@@ -1,20 +1,18 @@
-/**************************************************************************************************
-
-Author: Vegetable_SYC
-
-Address: https://github.com/Vegetable-SYC/IMU_Fusion_SYC
-
-Version: v1.1.6
-
-QMC5883L calibration steps:
-Step 1: Start by running the following code directly and viewing serial monitor
-step 2: You need to keep turning QMC5883L until the progress bar is full
-Step 3: Enter the value obtained in step1 into imu.QMC5883L_SetOffsets and imu.QMC5883L_SetScales
-Step 4: Annotation imu.QMC5883L_Calibration();
-Step 5: Uncomment the function imu.Calculate and Serial.println(imu.getHeading())
-Step 6: Upload the modified program to get the correct Angle value
-
-**************************************************************************************************/
+/********************************************************
+  @author: Vegetable_SYC
+  @address: https://github.com/Vegetable-SYC/IMU_Fusion_SYC
+  @version: v1.2.0
+  
+  @note:
+   Please note that the automatic calibration procedure needs
+   to be executed after the MPU6050 is initialized, and the 
+   execution order cannot be changed, otherwise an error may
+   occur!!!!
+   
+   If you find that some boards are not working, 
+   you can contact me on GitHub or send me an email at 
+   1318270340@qq.com.
+ *******************************************************/
 #include "IMU_Fusion_SYC.h"
 
 IMU imu(Wire);

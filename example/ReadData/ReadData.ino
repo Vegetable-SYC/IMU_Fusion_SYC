@@ -1,12 +1,18 @@
 /********************************************************
-
-Author: Vegetable_SYC
-
-Address: https://github.com/Vegetable-SYC/IMU_Fusion_SYC
-
-Version: v1.1.6
-
-********************************************************/
+  @author: Vegetable_SYC
+  @address: https://github.com/Vegetable-SYC/IMU_Fusion_SYC
+  @version: v1.2.0
+  
+  @note:
+   Please note that the automatic calibration procedure needs
+   to be executed after the MPU6050 is initialized, and the 
+   execution order cannot be changed, otherwise an error may
+   occur!!!!
+   
+   If you find that some boards are not working, 
+   you can contact me on GitHub or send me an email at 
+   1318270340@qq.com.
+ *******************************************************/
 
 #include "IMU_Fusion_SYC.h"
 

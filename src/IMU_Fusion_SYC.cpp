@@ -1,12 +1,18 @@
-/**********************************************************************
-  Filename    : IMU_SYC
-  Description : The data of MPU6050 and QMC5883L can be read, and the 
-                data fusion of both can be realized
-  Versions    : v1.1.11
-  Auther      : Vegtable SYC
-  Modification: 2024/09/27
-**********************************************************************/
-
+/********************************************************
+  @author: Vegetable_SYC
+  @address: https://github.com/Vegetable-SYC/IMU_Fusion_SYC
+  @version: v1.2.0
+  
+  @note:
+   Please note that the automatic calibration procedure needs
+   to be executed after the MPU6050 is initialized, and the 
+   execution order cannot be changed, otherwise an error may
+   occur!!!!
+   
+   If you find that some boards are not working, 
+   you can contact me on GitHub or send me an email at 
+   1318270340@qq.com.
+ *******************************************************/
 #include "IMU_Fusion_SYC.h"
 #include "Arduino.h"
 
@@ -15,8 +21,8 @@ IMU::IMU(TwoWire &i){//Get wire
 }
 
 void IMU::begin(uint8_t choose){
-  delay(3000);
-  Serial.println("*****************************************************************************");
+  delay(2000);
+  Serial.println("\n*****************************************************************************");
   // QMC58883L initialized
   if(choose == CHOOSE_QMC5883L || choose == CHOOSE_ALL)
   {
@@ -38,11 +44,10 @@ void IMU::begin(uint8_t choose){
   if(choose == CHOOSE_MPU6050 || choose == CHOOSE_ALL)
   {
     Serial.println("");
-    delay(1000);
-    if(I2C_Read(MPU6050_ID, MPU6050_ADDR) != MPU6050_ADDR)
+    uint8_t MPU6050_ID = I2C_Read(MPU6050_WHO_AM_I, MPU6050_ADDR);
+    delay(50);
+    if(MPU6050_ID == MPU6050_ID1 || MPU6050_ID == MPU6050_ID2)
     {
-      Serial.println("MPU_Init false!!! \t Please check whether the connection is correct");
-    }else{
       Serial.println("MPU_Init!!!");
       MPU6050_state = true;
       I2C_Write(MPU6050_SMPLRT_DIV, 0x00, MPU6050_ADDR);
@@ -52,10 +57,12 @@ void IMU::begin(uint8_t choose){
       I2C_Write(MPU6050_PWR_MGMT_1, 0x01, MPU6050_ADDR);
       delay(100);
       I2C_Write(MPU6050_GYRO_CONFIG, 0x08, MPU6050_ADDR);
+    }else{
+      Serial.println("MPU_Init false!!! \t Please check whether the connection is correct");
     }
   }
   Serial.println("");
-  Serial.println("*****************************************************************************");
+  Serial.println("*****************************************************************************\n");
   delay(1000);
   preInterval = millis();
   IMU::Calculate();
@@ -95,6 +102,7 @@ void IMU::MPU6050_CalcGyroOffsets(){
   for(int i = 0; i < 3000; i++){
     if(i % 500 == 0){
       Serial.print(".");
+      delay(100);
     }
     wire->beginTransmission(MPU6050_ADDR);
     wire->write(0x43);// Read the gyroscope
@@ -118,7 +126,7 @@ void IMU::MPU6050_CalcGyroOffsets(){
   Serial.print("X_offset : ");Serial.println(gx_offset);
   Serial.print("Y_offset : ");Serial.println(gy_offset);
   Serial.print("Z_offset : ");Serial.println(gz_offset);
-  Serial.print("*****************************************************************************");
+  Serial.print("*****************************************************************************\n");
   delay(1000);
 }
 
